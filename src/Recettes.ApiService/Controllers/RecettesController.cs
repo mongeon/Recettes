@@ -10,38 +10,42 @@ namespace Recettes.ServiceApi.Controllers;
 public class RecettesController(RecettesContext context) : ControllerBase
 {
 
-    // GET: api/SupportTickets
+    // GET: api/Recipes
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Recipe>>> GetTickets()
+    public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
     {
-        return await context.Recipes.ToListAsync();
+        return await context.Recipes
+            .Include(x => x.Ingredients)
+            .Include(x => x.Instructions)
+            .ToListAsync();
+
     }
 
-    // GET: api/SupportTickets/5
+    // GET: api/Recipes/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Recipe>> GetSupportTicket(int id)
+    public async Task<ActionResult<Recipe>> GetRecipe(int id)
     {
-        var supportTicket = await context.Recipes.FindAsync(id);
+        var recipe = await context.Recipes.FindAsync(id);
 
-        if (supportTicket == null)
+        if (recipe == null)
         {
             return NotFound();
         }
 
-        return supportTicket;
+        return recipe;
     }
 
-    // PUT: api/SupportTickets/5
+    // PUT: api/Recipes/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutSupportTicket(int id, Recipe supportTicket)
+    public async Task<IActionResult> PutRecipe(int id, Recipe recipe)
     {
-        if (id != supportTicket.Id)
+        if (id != recipe.Id)
         {
             return BadRequest();
         }
 
-        context.Entry(supportTicket).State = EntityState.Modified;
+        context.Entry(recipe).State = EntityState.Modified;
 
         try
         {
@@ -49,7 +53,7 @@ public class RecettesController(RecettesContext context) : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!SupportTicketExists(id))
+            if (!RecipeExists(id))
             {
                 return NotFound();
             }
@@ -62,34 +66,34 @@ public class RecettesController(RecettesContext context) : ControllerBase
         return NoContent();
     }
 
-    // POST: api/SupportTickets
+    // POST: api/Recipes
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Recipe>> PostSupportTicket(Recipe supportTicket)
+    public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
     {
-        context.Recipes.Add(supportTicket);
+        context.Recipes.Add(recipe);
         await context.SaveChangesAsync();
 
-        return CreatedAtAction("GetSupportTicket", new { id = supportTicket.Id }, supportTicket);
+        return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipe);
     }
 
-    // DELETE: api/SupportTickets/5
+    // DELETE: api/Recipes/5
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteSupportTicket(int id)
+    public async Task<IActionResult> DeleteRecipe(int id)
     {
-        var supportTicket = await context.Recipes.FindAsync(id);
-        if (supportTicket == null)
+        var recipe = await context.Recipes.FindAsync(id);
+        if (recipe == null)
         {
             return NotFound();
         }
 
-        context.Recipes.Remove(supportTicket);
+        context.Recipes.Remove(recipe);
         await context.SaveChangesAsync();
 
         return NoContent();
     }
 
-    private bool SupportTicketExists(int id)
+    private bool RecipeExists(int id)
     {
         return context.Recipes.Any(e => e.Id == id);
     }

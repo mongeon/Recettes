@@ -73,8 +73,10 @@ public class Worker(
         {
             Name = "Test Recipe",
             Description = "Default recipe, please ignore!",
-            Ingredients = "Test ingredients",
-            Instructions = "Test instructions",
+            Ingredients = [
+                new() { Name = "Chicken",  CreatedAt = DateTime.UtcNow,UpdatedAt = DateTime.UtcNow,Id=1},
+                new() { Name = "Pepperoni" , CreatedAt = DateTime.UtcNow,UpdatedAt = DateTime.UtcNow,Id=2}],
+            Instructions = [new() { Description = "Cut Chicken", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }, new() { Description = "Taste the pepperoni", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }],
             ImageUrl = "https://via.placeholder.com/150",
             Servings = 4,
             PrepTime = 10,
@@ -83,8 +85,8 @@ public class Worker(
             Source = "Test source",
             Url = "https://via.placeholder.com/150",
             Notes = "Test notes",
-            //CreatedAt = DateTime.Now,
-            //UpdatedAt = DateTime.Now
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         };
 
         var strategy = dbContext.Database.CreateExecutionStrategy();
