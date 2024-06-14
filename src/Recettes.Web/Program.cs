@@ -1,3 +1,4 @@
+using Microsoft.FluentUI.AspNetCore.Components;
 using Recettes.Web;
 using Recettes.Web.Components;
 
@@ -9,6 +10,8 @@ builder.AddServiceDefaults();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+// Add FluentUI Components
+builder.Services.AddFluentUIComponents();
 
 builder.Services.AddOutputCache();
 
@@ -18,6 +21,8 @@ builder.Services.AddHttpClient<WeatherApiClient>(client =>
         // Learn more about service discovery scheme resolution at https://aka.ms/dotnet/sdschemes.
         client.BaseAddress = new("https+http://apiservice");
     });
+
+
 
 var app = builder.Build();
 
