@@ -1,0 +1,12 @@
+﻿﻿<FluentCard class="recipe-card">
+    <img src="@Recipe.ImageUrl" />
+    <div class="recipe-card-body">
+        <h2 class="recipe-card-name">@Recipe.Name</h2>
+        <h3 class="recipe-card-source">@Recipe.Source</h3>
+    </div>
+</FluentCard>
+
+@code {
+    [Parameter, EditorRequired]
+    public Recipe Recipe { get; set; } = default!;
+}

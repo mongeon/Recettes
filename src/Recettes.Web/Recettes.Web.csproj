@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Recettes.ServiceDefaults\Recettes.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Recettes.Shared\Recettes.Shared.csproj" />
   </ItemGroup>
 
 </Project>

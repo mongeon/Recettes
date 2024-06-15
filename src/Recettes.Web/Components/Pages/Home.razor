@@ -1,8 +1,31 @@
 ﻿@page "/"
+@inject RecettesApiClient RecettesApiClient
 
 <PageTitle>Home</PageTitle>
 
-<FluentCard>
+@* <FluentCard>
     <h2>Hello World!</h2>
     <FluentButton Appearance="@Appearance.Accent">Click Me</FluentButton>
-</FluentCard>
+</FluentCard> *@
+@if (recipes is null)
+{
+    <p>Loading recipes...</p>
+}
+else
+{
+    @foreach (var recipe in recipes)
+    {
+        <a href="recipe/@recipe.Id">
+            <RecipeCard Recipe="recipe" />
+        </a>
+    }
+}
+@code {
+
+    IEnumerable<Recipe>? recipes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        recipes = await RecettesApiClient.GetRecipesAsync();
+    }
+}
