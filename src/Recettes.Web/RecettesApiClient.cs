@@ -23,4 +23,8 @@ public class RecettesApiClient(HttpClient httpClient)
 
         return recipes?.ToArray() ?? [];
     }
+    public async Task<Recipe?> GetRecipeAsync(long id, CancellationToken cancellationToken = default)
+    {
+        return await httpClient.GetFromJsonAsync<Recipe>($"Recettes/{id}", cancellationToken);
+    }
 }

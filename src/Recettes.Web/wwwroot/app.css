@@ -235,3 +235,41 @@ code {
 .recipe-card-source {
     margin-top: 0;
 }
+.source-and-servings {
+    text-align: center;
+    text-transform: uppercase;
+    /*color: #212A31;*/
+    text-align: center;
+    margin: 5px 0;
+}
+
+.recipe > .star-rating-avg {
+    text-align: center;
+    margin: 5px auto;
+}
+
+/*.recipe-banner {
+    display: block;
+    width: 125%;
+    margin: 0 -12.5%;
+    aspect-ratio: 1261 / 508;
+    object-fit: cover;
+}*/
+
+.recipe-details {
+    padding: 0 5%;
+}
+
+    .recipe-details ul {
+        list-style: none;
+        padding: 0;
+    }
+
+.tag {
+    color: inherit;
+    font-size: 0.8em;
+    text-decoration: none;
+    background-color: #eaeaea;
+    text-transform: uppercase;
+    padding: 0 4px;
+}

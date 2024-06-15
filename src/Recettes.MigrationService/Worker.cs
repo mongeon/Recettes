@@ -81,8 +81,11 @@ public class Worker(
                 Description = $"Default recipe {i}, please ignore!",
                 Ingredients = [
                 new() { Name = "Chicken",  CreatedAt = DateTime.UtcNow,UpdatedAt = DateTime.UtcNow},
-                new() { Name = "Pepperoni" , CreatedAt = DateTime.UtcNow,UpdatedAt = DateTime.UtcNow}],
-                Instructions = [new() { Description = "Cut Chicken", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }, new() { Description = "Taste the pepperoni", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }],
+                new() { Name = "Pepperoni" , CreatedAt = DateTime.UtcNow,UpdatedAt = DateTime.UtcNow},
+                new() { Name = "Water", CreatedAt = DateTime.UtcNow,UpdatedAt = DateTime.UtcNow,Quantity =250, Unit = IngredientUnit.Millileters}],
+                Instructions = @"Cut Chicken
+Taste the pepperoni
+Add Water",
                 ImageUrl = "https://via.placeholder.com/150",
                 Servings = 4,
                 PrepTime = 10,

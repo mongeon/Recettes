@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Recettes.Data.Contexts;
@@ -11,9 +12,11 @@ using Recettes.Data.Contexts;
 namespace Recettes.Data.Migrations
 {
     [DbContext(typeof(RecettesContext))]
-    partial class RecettesContextModelSnapshot : ModelSnapshot
+    [Migration("20240615155351_AddIngredientsUnit")]
+    partial class AddIngredientsUnit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,9 +79,6 @@ namespace Recettes.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
 
-                    b.Property<string>("Instructions")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -109,6 +109,34 @@ namespace Recettes.Data.Migrations
                     b.ToTable("Recipes");
                 });
 
+            modelBuilder.Entity("Recettes.Data.Models.Step", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long?>("RecipeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("Steps");
+                });
+
             modelBuilder.Entity("Recettes.Data.Models.Ingredient", b =>
                 {
                     b.HasOne("Recettes.Data.Models.Recipe", null)
@@ -116,9 +144,18 @@ namespace Recettes.Data.Migrations
                         .HasForeignKey("RecipeId");
                 });
 
+            modelBuilder.Entity("Recettes.Data.Models.Step", b =>
+                {
+                    b.HasOne("Recettes.Data.Models.Recipe", null)
+                        .WithMany("Instructions")
+                        .HasForeignKey("RecipeId");
+                });
+
             modelBuilder.Entity("Recettes.Data.Models.Recipe", b =>
                 {
                     b.Navigation("Ingredients");
+
+                    b.Navigation("Instructions");
                 });
 #pragma warning restore 612, 618
         }

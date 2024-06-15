@@ -7,5 +7,4 @@ public class RecettesContext(DbContextOptions<RecettesContext> options) : DbCont
 {
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<Ingredient> Ingredients { get; set; }
-    public DbSet<Step> Steps { get; set; }
 }

@@ -16,16 +16,18 @@ public class RecettesController(RecettesContext context) : ControllerBase
     {
         return await context.Recipes
             .Include(x => x.Ingredients)
-            .Include(x => x.Instructions)
             .ToListAsync();
 
     }
 
     // GET: api/Recipes/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Recipe>> GetRecipe(int id)
+    public async Task<ActionResult<Recipe>> GetRecipe(long id)
     {
-        var recipe = await context.Recipes.FindAsync(id);
+        var recipe = await context.Recipes
+            .Include(x => x.Ingredients)
+            .FirstOrDefaultAsync()
+            ;
 
         if (recipe == null)
         {
@@ -38,7 +40,7 @@ public class RecettesController(RecettesContext context) : ControllerBase
     // PUT: api/Recipes/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutRecipe(int id, Recipe recipe)
+    public async Task<IActionResult> PutRecipe(long id, Recipe recipe)
     {
         if (id != recipe.Id)
         {
@@ -79,7 +81,7 @@ public class RecettesController(RecettesContext context) : ControllerBase
 
     // DELETE: api/Recipes/5
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteRecipe(int id)
+    public async Task<IActionResult> DeleteRecipe(long id)
     {
         var recipe = await context.Recipes.FindAsync(id);
         if (recipe == null)
@@ -93,7 +95,7 @@ public class RecettesController(RecettesContext context) : ControllerBase
         return NoContent();
     }
 
-    private bool RecipeExists(int id)
+    private bool RecipeExists(long id)
     {
         return context.Recipes.Any(e => e.Id == id);
     }
