@@ -69,32 +69,41 @@ public class Worker(
 
     private static async Task SeedDataAsync(RecettesContext dbContext, CancellationToken cancellationToken)
     {
-        Recipe recipe = new()
+
+
+        var recipes = new List<Recipe>();
+
+        for (int i = 0; i < 67; i++)
         {
-            Name = "Test Recipe",
-            Description = "Default recipe, please ignore!",
-            Ingredients = [
-                new() { Name = "Chicken",  CreatedAt = DateTime.UtcNow,UpdatedAt = DateTime.UtcNow,Id=1},
-                new() { Name = "Pepperoni" , CreatedAt = DateTime.UtcNow,UpdatedAt = DateTime.UtcNow,Id=2}],
-            Instructions = [new() { Description = "Cut Chicken", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }, new() { Description = "Taste the pepperoni", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }],
-            ImageUrl = "https://via.placeholder.com/150",
-            Servings = 4,
-            PrepTime = 10,
-            CookTime = 20,
-            TotalTime = 30,
-            Source = "Test source",
-            Url = "https://via.placeholder.com/150",
-            Notes = "Test notes",
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
+            Recipe recipe = new()
+            {
+                Name = "Test Recipe " + i,
+                Description = $"Default recipe {i}, please ignore!",
+                Ingredients = [
+                new() { Name = "Chicken",  CreatedAt = DateTime.UtcNow,UpdatedAt = DateTime.UtcNow},
+                new() { Name = "Pepperoni" , CreatedAt = DateTime.UtcNow,UpdatedAt = DateTime.UtcNow}],
+                Instructions = [new() { Description = "Cut Chicken", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }, new() { Description = "Taste the pepperoni", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }],
+                ImageUrl = "https://via.placeholder.com/150",
+                Servings = 4,
+                PrepTime = 10,
+                CookTime = 20,
+                TotalTime = 30,
+                Source = "Test source",
+                Url = "https://via.placeholder.com/150",
+                Notes = "Test notes",
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+            recipes.Add(recipe);
+        }
+
 
         var strategy = dbContext.Database.CreateExecutionStrategy();
         await strategy.ExecuteAsync(async () =>
         {
             // Seed the database
             await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
-            await dbContext.Recipes.AddAsync(recipe, cancellationToken);
+            await dbContext.Recipes.AddRangeAsync(recipes, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
         });

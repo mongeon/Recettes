@@ -1,4 +1,6 @@
-﻿﻿<FluentCard class="recipe-card">
+﻿@attribute [StreamRendering(true)]
+@attribute [OutputCache(Duration = 5)]
+﻿<FluentCard class="recipe-card" MinimalStyle="true" >
     <img src="@Recipe.ImageUrl" />
     <div class="recipe-card-body">
         <h2 class="recipe-card-name">@Recipe.Name</h2>
